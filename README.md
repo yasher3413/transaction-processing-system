@@ -1,6 +1,6 @@
-# Production-Grade Event-Driven Transaction Processing System
+# Event-Driven Transaction Processing System
 
-A production-ready, event-driven transaction processing system demonstrating enterprise-level distributed systems patterns including transactional outbox, idempotency, retries, dead-letter queues, and comprehensive observability. Built with Go, Kafka (Redpanda), PostgreSQL, and modern observability tooling.
+A an event-driven transaction processing system demonstrating enterprise-level distributed systems patterns including transactional outbox, idempotency, retries, dead-letter queues, and comprehensive observability. Built with Go, Kafka (Redpanda), PostgreSQL, and modern observability tooling.
 
 ## Overview
 
