@@ -154,14 +154,10 @@ Access Grafana at `http://localhost:3000` (admin/admin):
 ### Prerequisites
 
 - **Docker and Docker Compose** (required)
-- **Go 1.22+** (optional, for local development without Docker)
+- **Go 1.22+** (optional, for local development)
 - **Make** (optional, for convenience)
 
-**Note about `go.sum`:** 
-- The Docker builds will automatically download dependencies, so `go.sum` is not strictly required to run the system
-- However, if you want to develop locally or run tests, you'll need Go installed
-- To install Go on macOS: `brew install go` or download from https://go.dev/dl/
-- After installing Go, run: `go mod tidy` to generate `go.sum`
+**Note:** Docker builds automatically download dependencies. For local development, install Go and run `go mod tidy`.
 
 ### Run Locally
 
@@ -185,74 +181,13 @@ Access Grafana at `http://localhost:3000` (admin/admin):
    make seed
    ```
 
-### Example API Calls
-
-**Create Account:**
-```bash
-curl -X POST http://localhost:8080/v1/accounts \
-  -H "Content-Type: application/json" \
-  -H "X-API-Key: demo-api-key-12345" \
-  -d '{
-    "currency": "USD"
-  }'
-```
-
-**Create Transaction:**
-```bash
-curl -X POST http://localhost:8080/v1/transactions \
-  -H "Content-Type: application/json" \
-  -H "X-API-Key: demo-api-key-12345" \
-  -d '{
-    "account_id": "YOUR_ACCOUNT_ID",
-    "amount_cents": 10000,
-    "currency": "USD",
-    "type": "CREDIT",
-    "idempotency_key": "unique-key-123"
-  }'
-```
-
-**Get Transaction:**
-```bash
-curl http://localhost:8080/v1/transactions/TRANSACTION_ID \
-  -H "X-API-Key: demo-api-key-12345"
-```
-
-**Get Account (with balance):**
-```bash
-curl http://localhost:8080/v1/accounts/ACCOUNT_ID \
-  -H "X-API-Key: demo-api-key-12345"
-```
-
-**Test Idempotency:**
-```bash
-# Send same request twice with same idempotency_key
-# Both should return the same transaction ID
-curl -X POST http://localhost:8080/v1/transactions \
-  -H "Content-Type: application/json" \
-  -H "X-API-Key: demo-api-key-12345" \
-  -d '{
-    "account_id": "YOUR_ACCOUNT_ID",
-    "amount_cents": 5000,
-    "currency": "USD",
-    "type": "DEBIT",
-    "idempotency_key": "same-key-456"
-  }'
-```
-
-**Trigger DLQ Scenario:**
-```bash
-# Create account with zero balance
-# Then create a DEBIT transaction that exceeds balance
-# Transaction will fail and message will be sent to DLQ
-```
-
-### Run Tests
+### Testing
 
 ```bash
-# E2E tests (requires services to be running)
+# Run E2E tests (requires services to be running)
 make e2e
 
-# All tests
+# Run all tests
 make test
 ```
 
@@ -333,55 +268,21 @@ This is a demonstration system. For production use, consider:
 - **A/B Testing**: Test new features safely
 - **Monitoring Runbooks**: Document incident response procedures
 
-## Development
-
-### Project Structure
+## Project Structure
 
 ```
 .
-├── api/              # API service
-├── worker/           # Worker service
+├── api/              # REST API service
+├── worker/           # Event consumer service
 ├── publisher/        # Outbox publisher service
-├── shared/           # Shared libraries
-├── infra/            # Infrastructure configs
+├── shared/           # Shared libraries (types, config, DB, tracing)
+├── infra/            # Infrastructure (Docker Compose, migrations, observability)
 │   ├── docker-compose.yml
 │   ├── migrations/
 │   ├── prometheus/
 │   └── grafana/
 ├── tests/            # Integration and E2E tests
 └── Makefile
-```
-
-### Local Development
-
-1. **Start infrastructure only:**
-   ```bash
-   docker compose -f infra/docker-compose.yml up postgres redis redpanda prometheus grafana jaeger
-   ```
-
-2. **Run services locally:**
-   ```bash
-   # Terminal 1: API
-   cd api && go run cmd/server/main.go
-
-   # Terminal 2: Publisher
-   cd publisher && go run cmd/publisher/main.go
-
-   # Terminal 3: Worker
-   cd worker && go run cmd/worker/main.go
-   ```
-
-### Code Quality
-
-```bash
-# Format code
-make fmt
-
-# Run linter
-make lint
-
-# Run tests
-make test
 ```
 
 ## License
