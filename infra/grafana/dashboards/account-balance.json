@@ -1,0 +1,62 @@
+{
+  "dashboard": {
+    "title": "Account Balance Dashboard",
+    "tags": ["accounts", "balance"],
+    "timezone": "browser",
+    "panels": [
+      {
+        "id": 1,
+        "title": "Account Balance by Currency",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "account_balance_cents",
+            "legendFormat": "{{account_id}} ({{currency}})"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 24, "x": 0, "y": 0},
+        "yaxes": [
+          {
+            "format": "currencyUSD",
+            "label": "Balance (cents)"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "Total Balance by Currency",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "sum(account_balance_cents) by (currency)",
+            "legendFormat": "{{currency}}"
+          }
+        ],
+        "gridPos": {"h": 4, "w": 12, "x": 0, "y": 8},
+        "options": {
+          "graphMode": "none",
+          "colorMode": "value"
+        }
+      },
+      {
+        "id": 3,
+        "title": "Account Count",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "count(account_balance_cents)",
+            "legendFormat": "Accounts"
+          }
+        ],
+        "gridPos": {"h": 4, "w": 12, "x": 12, "y": 8},
+        "options": {
+          "graphMode": "none"
+        }
+      }
+    ],
+    "refresh": "10s",
+    "schemaVersion": 27,
+    "version": 1
+  }
+}
+
