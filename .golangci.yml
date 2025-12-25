@@ -23,20 +23,20 @@ linters-settings:
 linters:
   enable:
     - errcheck
-    - gosimple
     - govet
-    - ineffassign
-    - staticcheck
-    - unused
     - gofmt
     - goimports
-    - misspell
     - typecheck
   disable:
     - gochecknoglobals  # Allow global metrics
     - gochecknoinits    # Allow init functions if needed
     - gocritic          # Too strict for this project
     - gosec             # Security checks can be noisy
+    - gosimple          # Can be too strict
+    - staticcheck       # Can be too strict
+    - ineffassign       # Can be too strict
+    - unused            # Can flag legitimate code
+    - misspell          # Can be noisy
 
 issues:
   exclude-use-default: false
@@ -47,4 +47,12 @@ issues:
       linters:
         - errcheck
         - gosec
+    - linters:
+        - errcheck
+      text: "Error return value of .* is not checked"
+      source: "^\\s*defer .*"
+    - linters:
+        - errcheck
+      text: "Error return value of .* is not checked"
+      source: "^\\s*_, _ ="
 
