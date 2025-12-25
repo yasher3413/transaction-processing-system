@@ -12,3 +12,5 @@ docker run --rm \
 echo "go.sum generated successfully!"
 
 
+
+
