@@ -1,24 +1,6 @@
-linters-settings:
-  errcheck:
-    check-type-assertions: true
-    check-blank: true
-  govet:
-    check-shadowing: true
-  gosimple:
-    checks: ["all"]
-  staticcheck:
-    checks: ["all"]
-  unused:
-    check-exported: false
-  goconst:
-    min-len: 2
-    min-occurrences: 2
-  misspell:
-    locale: US
-  gofmt:
-    simplify: true
-  goimports:
-    local-prefixes: github.com/yash/transaction-system
+run:
+  timeout: 5m
+  tests: true
 
 linters:
   disable-all: true
@@ -31,6 +13,3 @@ issues:
   exclude-use-default: false
   max-issues-per-linter: 0
   max-same-issues: 0
-  exclude-rules:
-    - path: _test\.go
-
