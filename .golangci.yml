@@ -21,11 +21,11 @@ linters-settings:
     local-prefixes: github.com/yash/transaction-system
 
 linters:
+  disable-all: true
   enable:
     - gofmt
     - goimports
     - typecheck
-  disable-all: true
 
 issues:
   exclude-use-default: false
