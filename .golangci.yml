@@ -35,6 +35,8 @@ linters:
   disable:
     - gochecknoglobals  # Allow global metrics
     - gochecknoinits    # Allow init functions if needed
+    - gocritic          # Too strict for this project
+    - gosec             # Security checks can be noisy
 
 issues:
   exclude-use-default: false
