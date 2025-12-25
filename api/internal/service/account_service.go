@@ -12,6 +12,8 @@ import (
 	"go.uber.org/zap"
 )
 
+// UpdateAccountBalanceMetric is defined in metrics.go
+
 // AccountService handles account operations
 type AccountService struct {
 	db     *sql.DB
