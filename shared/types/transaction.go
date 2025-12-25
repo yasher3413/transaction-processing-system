@@ -35,27 +35,27 @@ const (
 
 // Account represents a financial account
 type Account struct {
-	ID          uuid.UUID    `json:"id"`
-	CreatedAt   time.Time    `json:"created_at"`
-	UpdatedAt   time.Time    `json:"updated_at"`
-	Currency    string       `json:"currency"`
-	BalanceCents int64      `json:"balance_cents"`
-	Status      AccountStatus `json:"status"`
+	ID           uuid.UUID     `json:"id"`
+	CreatedAt    time.Time     `json:"created_at"`
+	UpdatedAt    time.Time     `json:"updated_at"`
+	Currency     string        `json:"currency"`
+	BalanceCents int64         `json:"balance_cents"`
+	Status       AccountStatus `json:"status"`
 }
 
 // Transaction represents a financial transaction
 type Transaction struct {
-	ID             uuid.UUID        `json:"id"`
-	AccountID      uuid.UUID        `json:"account_id"`
-	AmountCents    int64            `json:"amount_cents"`
-	Currency       string           `json:"currency"`
-	Type           TransactionType  `json:"type"`
+	ID             uuid.UUID         `json:"id"`
+	AccountID      uuid.UUID         `json:"account_id"`
+	AmountCents    int64             `json:"amount_cents"`
+	Currency       string            `json:"currency"`
+	Type           TransactionType   `json:"type"`
 	Status         TransactionStatus `json:"status"`
-	IdempotencyKey string           `json:"idempotency_key"`
-	FailureReason  *string          `json:"failure_reason,omitempty"`
-	Metadata       json.RawMessage  `json:"metadata,omitempty"`
-	CreatedAt      time.Time        `json:"created_at"`
-	UpdatedAt      time.Time        `json:"updated_at"`
+	IdempotencyKey string            `json:"idempotency_key"`
+	FailureReason  *string           `json:"failure_reason,omitempty"`
+	Metadata       json.RawMessage   `json:"metadata,omitempty"`
+	CreatedAt      time.Time         `json:"created_at"`
+	UpdatedAt      time.Time         `json:"updated_at"`
 }
 
 // CreateTransactionRequest represents a request to create a transaction
@@ -108,7 +108,3 @@ type TransactionFailedPayload struct {
 	AccountID     uuid.UUID `json:"account_id"`
 	FailureReason string    `json:"failure_reason"`
 }
-
-
-
-

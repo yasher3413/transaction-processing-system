@@ -14,12 +14,12 @@ import (
 
 // KafkaConsumer consumes messages from Kafka
 type KafkaConsumer struct {
-	reader        *kafka.Reader
-	processor     *processor.TransactionProcessor
-	logger        *zap.Logger
-	maxRetries    int
-	retryBackoff  time.Duration
-	dlqWriter     *kafka.Writer
+	reader       *kafka.Reader
+	processor    *processor.TransactionProcessor
+	logger       *zap.Logger
+	maxRetries   int
+	retryBackoff time.Duration
+	dlqWriter    *kafka.Writer
 }
 
 // NewKafkaConsumer creates a new Kafka consumer
@@ -43,10 +43,10 @@ func NewKafkaConsumer(
 	})
 
 	dlqWriter := &kafka.Writer{
-		Addr:     kafka.TCP(brokers),
-		Topic:    dlqTopic,
-		Balancer: &kafka.LeastBytes{},
-		Async:    false,
+		Addr:         kafka.TCP(brokers),
+		Topic:        dlqTopic,
+		Balancer:     &kafka.LeastBytes{},
+		Async:        false,
 		RequiredAcks: kafka.RequireAll,
 		WriteTimeout: 10 * time.Second,
 	}
@@ -193,4 +193,3 @@ func (c *KafkaConsumer) Close() error {
 	}
 	return c.dlqWriter.Close()
 }
-

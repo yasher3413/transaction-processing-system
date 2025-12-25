@@ -39,7 +39,11 @@ func (s *TransactionService) CreateTransaction(ctx context.Context, req types.Cr
 	if err != nil {
 		return nil, fmt.Errorf("failed to begin transaction: %w", err)
 	}
-	defer tx.Rollback()
+	defer func() {
+		if err := tx.Rollback(); err != nil && err != sql.ErrTxDone {
+			s.logger.Error("Failed to rollback transaction", zap.Error(err))
+		}
+	}()
 
 	// Check idempotency: if same (account_id, idempotency_key) exists, return it
 	var existingTx types.Transaction
@@ -283,5 +287,3 @@ func (s *TransactionService) ListTransactions(ctx context.Context, accountID *uu
 
 	return transactions, nil
 }
-
-

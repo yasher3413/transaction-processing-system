@@ -57,4 +57,3 @@ func (rw *metricsResponseWriter) WriteHeader(code int) {
 	rw.statusCode = code
 	rw.ResponseWriter.WriteHeader(code)
 }
-

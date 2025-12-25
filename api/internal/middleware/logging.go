@@ -38,4 +38,3 @@ func Logging(logger *zap.Logger) func(http.Handler) http.Handler {
 		})
 	}
 }
-

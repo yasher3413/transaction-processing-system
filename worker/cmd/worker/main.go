@@ -24,7 +24,9 @@ func main() {
 	if err != nil {
 		panic(fmt.Sprintf("Failed to initialize logger: %v", err))
 	}
-	defer logger.Sync()
+	defer func() {
+		_ = logger.Sync()
+	}()
 
 	// Load config
 	cfg, err := config.LoadConfig()
@@ -55,8 +57,8 @@ func main() {
 		cfg.KafkaTransactionsTopic,
 		cfg.WorkerConsumerGroup,
 		cfg.KafkaDLQTopic,
-		5,                    // max retries
-		2*time.Second,        // retry backoff
+		5,             // max retries
+		2*time.Second, // retry backoff
 		transactionProcessor,
 		logger,
 	)
@@ -67,7 +69,7 @@ func main() {
 		http.Handle("/metrics", promhttp.Handler())
 		http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusOK)
-			w.Write([]byte("OK"))
+			_, _ = w.Write([]byte("OK"))
 		})
 		if err := http.ListenAndServe(":8081", nil); err != nil {
 			logger.Error("Metrics server error", zap.Error(err))
@@ -92,7 +94,3 @@ func initLogger() (*zap.Logger, error) {
 	}
 	return zap.NewDevelopment()
 }
-
-
-
-

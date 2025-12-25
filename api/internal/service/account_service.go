@@ -86,5 +86,3 @@ func (s *AccountService) GetAccount(ctx context.Context, accountID uuid.UUID) (*
 	UpdateAccountBalanceMetric(account.ID.String(), account.Currency, account.BalanceCents)
 	return &account, nil
 }
-
-

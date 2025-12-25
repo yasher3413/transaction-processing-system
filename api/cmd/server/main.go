@@ -28,7 +28,9 @@ func main() {
 	if err != nil {
 		panic(fmt.Sprintf("Failed to initialize logger: %v", err))
 	}
-	defer logger.Sync()
+	defer func() {
+		_ = logger.Sync()
+	}()
 
 	// Load config
 	cfg, err := config.LoadConfig()
@@ -77,7 +79,7 @@ func main() {
 	// Health check
 	r.Get("/health", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("OK"))
+		_, _ = w.Write([]byte("OK"))
 	})
 
 	// Metrics endpoint
@@ -140,5 +142,3 @@ func initLogger() (*zap.Logger, error) {
 	}
 	return zap.NewDevelopment()
 }
-
-

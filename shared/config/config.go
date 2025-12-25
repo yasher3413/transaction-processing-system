@@ -21,15 +21,15 @@ type Config struct {
 	RedisPort int
 
 	// Kafka
-	KafkaBrokers         string
+	KafkaBrokers           string
 	KafkaTransactionsTopic string
-	KafkaDLQTopic        string
+	KafkaDLQTopic          string
 
 	// Service
-	APIPort              int
-	WorkerConsumerGroup  string
-	PublisherInterval    time.Duration
-	PublisherBatchSize   int
+	APIPort             int
+	WorkerConsumerGroup string
+	PublisherInterval   time.Duration
+	PublisherBatchSize  int
 
 	// Observability
 	JaegerEndpoint string
@@ -43,24 +43,24 @@ type Config struct {
 // LoadConfig loads configuration from environment variables
 func LoadConfig() (*Config, error) {
 	cfg := &Config{
-		PostgresHost:          getEnv("POSTGRES_HOST", "postgres"),
-		PostgresPort:          getEnvAsInt("POSTGRES_PORT", 5432),
-		PostgresUser:          getEnv("POSTGRES_USER", "postgres"),
-		PostgresPassword:      getEnv("POSTGRES_PASSWORD", "postgres"),
-		PostgresDB:            getEnv("POSTGRES_DB", "transactions"),
-		RedisHost:             getEnv("REDIS_HOST", "redis"),
-		RedisPort:             getEnvAsInt("REDIS_PORT", 6379),
-		KafkaBrokers:          getEnv("KAFKA_BROKERS", "redpanda:9092"),
+		PostgresHost:           getEnv("POSTGRES_HOST", "postgres"),
+		PostgresPort:           getEnvAsInt("POSTGRES_PORT", 5432),
+		PostgresUser:           getEnv("POSTGRES_USER", "postgres"),
+		PostgresPassword:       getEnv("POSTGRES_PASSWORD", "postgres"),
+		PostgresDB:             getEnv("POSTGRES_DB", "transactions"),
+		RedisHost:              getEnv("REDIS_HOST", "redis"),
+		RedisPort:              getEnvAsInt("REDIS_PORT", 6379),
+		KafkaBrokers:           getEnv("KAFKA_BROKERS", "redpanda:9092"),
 		KafkaTransactionsTopic: getEnv("KAFKA_TRANSACTIONS_TOPIC", "transactions"),
-		KafkaDLQTopic:         getEnv("KAFKA_DLQ_TOPIC", "transactions.dlq"),
-		APIPort:               getEnvAsInt("API_PORT", 8080),
-		WorkerConsumerGroup:   getEnv("WORKER_CONSUMER_GROUP", "transaction-workers"),
-		PublisherInterval:     getEnvAsDuration("PUBLISHER_INTERVAL", 5*time.Second),
-		PublisherBatchSize:    getEnvAsInt("PUBLISHER_BATCH_SIZE", 100),
-		JaegerEndpoint:        getEnv("JAEGER_ENDPOINT", "http://jaeger:14268/api/traces"),
-		LogLevel:              getEnv("LOG_LEVEL", "info"),
-		Env:                   getEnv("ENV", "development"),
-		APIKey:                getEnv("API_KEY", ""),
+		KafkaDLQTopic:          getEnv("KAFKA_DLQ_TOPIC", "transactions.dlq"),
+		APIPort:                getEnvAsInt("API_PORT", 8080),
+		WorkerConsumerGroup:    getEnv("WORKER_CONSUMER_GROUP", "transaction-workers"),
+		PublisherInterval:      getEnvAsDuration("PUBLISHER_INTERVAL", 5*time.Second),
+		PublisherBatchSize:     getEnvAsInt("PUBLISHER_BATCH_SIZE", 100),
+		JaegerEndpoint:         getEnv("JAEGER_ENDPOINT", "http://jaeger:14268/api/traces"),
+		LogLevel:               getEnv("LOG_LEVEL", "info"),
+		Env:                    getEnv("ENV", "development"),
+		APIKey:                 getEnv("API_KEY", ""),
 	}
 
 	return cfg, nil
@@ -96,7 +96,3 @@ func getEnvAsDuration(key string, defaultValue time.Duration) time.Duration {
 	}
 	return defaultValue
 }
-
-
-
-

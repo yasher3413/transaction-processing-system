@@ -142,7 +142,7 @@ func (h *TransactionHandler) ListTransactions(w http.ResponseWriter, r *http.Req
 func (h *TransactionHandler) respondJSON(w http.ResponseWriter, status int, data interface{}) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
-	json.NewEncoder(w).Encode(data)
+	_ = json.NewEncoder(w).Encode(data)
 }
 
 func (h *TransactionHandler) respondError(w http.ResponseWriter, status int, message string, err error) {
@@ -154,9 +154,5 @@ func (h *TransactionHandler) respondError(w http.ResponseWriter, status int, mes
 	if err != nil {
 		response["details"] = err.Error()
 	}
-	json.NewEncoder(w).Encode(response)
+	_ = json.NewEncoder(w).Encode(response)
 }
-
-
-
-

@@ -34,7 +34,3 @@ func APIKeyAuth(expectedKey string) func(http.Handler) http.Handler {
 		})
 	}
 }
-
-
-
-

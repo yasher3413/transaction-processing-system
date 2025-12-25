@@ -70,7 +70,11 @@ func (p *TransactionProcessor) ProcessTransactionCreated(ctx context.Context, en
 	if err != nil {
 		return true, fmt.Errorf("failed to begin transaction: %w", err)
 	}
-	defer tx.Rollback()
+	defer func() {
+		if err := tx.Rollback(); err != nil && err != sql.ErrTxDone {
+			p.logger.Error("Failed to rollback transaction", zap.Error(err))
+		}
+	}()
 
 	// Insert into processed_events first (idempotency check)
 	insertProcessedQuery := `
@@ -191,4 +195,3 @@ func (p *TransactionProcessor) ProcessTransactionCreated(ctx context.Context, en
 
 	return false, nil
 }
-

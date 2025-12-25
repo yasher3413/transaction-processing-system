@@ -75,7 +75,7 @@ func (h *AccountHandler) GetAccount(w http.ResponseWriter, r *http.Request) {
 func (h *AccountHandler) respondJSON(w http.ResponseWriter, status int, data interface{}) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
-	json.NewEncoder(w).Encode(data)
+	_ = json.NewEncoder(w).Encode(data)
 }
 
 func (h *AccountHandler) respondError(w http.ResponseWriter, status int, message string, err error) {
@@ -87,9 +87,5 @@ func (h *AccountHandler) respondError(w http.ResponseWriter, status int, message
 	if err != nil {
 		response["details"] = err.Error()
 	}
-	json.NewEncoder(w).Encode(response)
+	_ = json.NewEncoder(w).Encode(response)
 }
-
-
-
-

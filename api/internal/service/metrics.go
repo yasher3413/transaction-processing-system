@@ -32,6 +32,3 @@ func UpdateAccountBalanceMetric(accountID, currency string, balanceCents int64) 
 func UpdateTransactionMetric(transactionID, txType, status string, amountCents int64) {
 	transactionAmountGauge.WithLabelValues(transactionID, txType, status).Set(float64(amountCents))
 }
-
-
-

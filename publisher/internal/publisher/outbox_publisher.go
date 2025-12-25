@@ -15,10 +15,10 @@ import (
 
 // OutboxPublisher publishes outbox events to Kafka
 type OutboxPublisher struct {
-	db          *sql.DB
-	writer      *kafka.Writer
-	logger      *zap.Logger
-	batchSize   int
+	db           *sql.DB
+	writer       *kafka.Writer
+	logger       *zap.Logger
+	batchSize    int
 	pollInterval time.Duration
 }
 
@@ -32,19 +32,19 @@ func NewOutboxPublisher(
 	logger *zap.Logger,
 ) *OutboxPublisher {
 	writer := &kafka.Writer{
-		Addr:     kafka.TCP(kafkaBrokers),
-		Topic:    topic,
-		Balancer: &kafka.LeastBytes{},
-		Async:    false, // Synchronous for reliability
+		Addr:         kafka.TCP(kafkaBrokers),
+		Topic:        topic,
+		Balancer:     &kafka.LeastBytes{},
+		Async:        false,            // Synchronous for reliability
 		RequiredAcks: kafka.RequireAll, // Wait for all replicas
 		WriteTimeout: 10 * time.Second,
 	}
 
 	return &OutboxPublisher{
-		db:          db,
-		writer:      writer,
-		logger:      logger,
-		batchSize:   batchSize,
+		db:           db,
+		writer:       writer,
+		logger:       logger,
+		batchSize:    batchSize,
 		pollInterval: pollInterval,
 	}
 }
@@ -212,14 +212,10 @@ func (p *OutboxPublisher) Close() error {
 }
 
 type outboxEvent struct {
-	ID           uuid.UUID
+	ID            uuid.UUID
 	AggregateType string
-	AggregateID  uuid.UUID
-	EventType    string
-	Payload      json.RawMessage
-	CreatedAt    time.Time
+	AggregateID   uuid.UUID
+	EventType     string
+	Payload       json.RawMessage
+	CreatedAt     time.Time
 }
-
-
-
-
