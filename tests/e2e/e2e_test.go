@@ -168,7 +168,3 @@ func waitForTransactionStatus(t *testing.T, transactionID uuid.UUID, expectedSta
 	}
 	t.Fatalf("Transaction %s did not reach status %s within %v", transactionID, expectedStatus, timeout)
 }
-
-
-
-
