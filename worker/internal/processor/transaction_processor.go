@@ -87,7 +87,10 @@ func (p *TransactionProcessor) ProcessTransactionCreated(ctx context.Context, en
 		return true, fmt.Errorf("failed to insert processed event: %w", err)
 	}
 
-	rowsAffected, _ := result.RowsAffected()
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		return true, fmt.Errorf("failed to get rows affected: %w", err)
+	}
 	if rowsAffected == 0 {
 		// Another worker processed it - no-op
 		tx.Commit()
